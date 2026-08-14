@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-asphalt-950 text-asphalt-200 font-body antialiased;
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 78px, rgba(244,197,49,0.035) 78px, rgba(244,197,49,0.035) 82px);
+}
+
+.dash {
+  @apply font-display tracking-wide2 uppercase text-asphalt-400 text-xs;
+}
+
+.h1 {
+  @apply font-display font-extrabold uppercase tracking-tightest2 text-4xl md:text-5xl text-white leading-[0.95];
+}
+
+.card {
+  @apply bg-asphalt-900 border border-asphalt-700 rounded-sm;
+}
+
+.btn-primary {
+  @apply bg-signal hover:bg-signal-dim text-asphalt-950 font-display font-bold uppercase tracking-wide2 text-sm px-5 py-3 rounded-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed;
+}
+
+.btn-ghost {
+  @apply border border-asphalt-600 hover:border-line text-asphalt-200 font-display font-bold uppercase tracking-wide2 text-sm px-5 py-3 rounded-sm transition-colors;
+}
+
+.input {
+  @apply w-full bg-asphalt-800 border border-asphalt-600 focus:border-line focus:outline-none rounded-sm px-4 py-3 text-white placeholder-asphalt-400;
+}
+
+.status-pill {
+  @apply font-mono text-[11px] uppercase tracking-wide2 px-2 py-1 rounded-sm border;
+}
