@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { VEHICLE_TYPES } from '../../lib/pricing.js'
 
 export default function Signup() {
   const { signUp } = useAuth()
   const navigate = useNavigate()
-  const [form, setForm] = useState({ fullName: '', phone: '', email: '', password: '', role: 'customer' })
+  const [form, setForm] = useState({
+    fullName: '', phone: '', email: '', password: '', role: 'customer',
+    vehicleType: '', vehicleNumber: '', aadharNumber: '', vehicleRegNumber: '', address: ''
+  })
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -24,6 +28,11 @@ export default function Signup() {
         fullName: form.fullName,
         phone: form.phone,
         role: form.role,
+        vehicleType: form.role === 'driver' ? form.vehicleType : undefined,
+        vehicleNumber: form.role === 'driver' ? form.vehicleNumber : undefined,
+        aadharNumber: form.role === 'driver' ? form.aadharNumber : undefined,
+        vehicleRegNumber: form.role === 'driver' ? form.vehicleRegNumber : undefined,
+        address: form.role === 'driver' ? form.address : undefined,
       })
       navigate('/')
     } catch (err) {
@@ -86,6 +95,57 @@ export default function Signup() {
             minLength={6}
             required
           />
+
+          {form.role === 'driver' && (
+            <>
+              <p className="dash mt-2">Vehicle & KYC — required before an admin can approve you for jobs</p>
+              <select
+                className="input"
+                value={form.vehicleType}
+                onChange={(e) => update('vehicleType', e.target.value)}
+                required
+              >
+                <option value="">Vehicle type</option>
+                {VEHICLE_TYPES.map((v) => (
+                  <option key={v.id} value={v.id}>{v.label} — {v.desc}</option>
+                ))}
+              </select>
+              <input
+                className="input"
+                placeholder="Vehicle number (e.g. KA-01-AB-1234)"
+                value={form.vehicleNumber}
+                onChange={(e) => update('vehicleNumber', e.target.value)}
+                required
+              />
+              <input
+                className="input"
+                placeholder="Aadhar number"
+                value={form.aadharNumber}
+                onChange={(e) => update('aadharNumber', e.target.value)}
+                required
+              />
+              <input
+                className="input"
+                placeholder="Vehicle registration (RC) number"
+                value={form.vehicleRegNumber}
+                onChange={(e) => update('vehicleRegNumber', e.target.value)}
+                required
+              />
+              <input
+                className="input"
+                placeholder="Address"
+                value={form.address}
+                onChange={(e) => update('address', e.target.value)}
+                required
+              />
+              <p className="text-asphalt-500 text-xs">
+                Scanned copies of your Aadhar card and vehicle RC can be shared
+                with your admin separately for verification — this form
+                captures the numbers so your admin can review and approve you.
+              </p>
+            </>
+          )}
+
           {error && <p className="text-red-500 text-sm font-mono">{error}</p>}
           <button className="btn-primary" disabled={busy}>
             {busy ? 'Creating account…' : 'Create Account'}

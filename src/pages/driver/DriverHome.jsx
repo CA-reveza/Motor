@@ -74,6 +74,10 @@ export default function DriverHome() {
 
       {loading ? (
         <p className="dash">Loading…</p>
+      ) : !profile?.vehicle_type ? (
+        <p className="text-asphalt-400 text-sm">
+          You haven't been assigned a vehicle yet. Contact an admin to get set up before you can accept jobs.
+        </p>
       ) : myTrip ? (
         <div className="max-w-md">
           <p className="dash mb-3">Current Trip</p>

@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe()
   }, [])
 
-  async function signUp({ email, password, fullName, phone, role }) {
+  async function signUp({ email, password, fullName, phone, role, vehicleType, vehicleNumber, aadharNumber, vehicleRegNumber, address }) {
     // Profile fields go in auth metadata; a DB trigger (see supabase/schema.sql)
     // reads them and creates the profiles row server-side. Don't insert into
     // profiles from the client here — signUp() doesn't guarantee an active
@@ -41,7 +41,11 @@ export function AuthProvider({ children }) {
       email,
       password,
       options: {
-        data: { full_name: fullName, phone, role },
+        data: {
+          full_name: fullName, phone, role,
+          vehicle_type: vehicleType, vehicle_number: vehicleNumber,
+          aadhar_number: aadharNumber, vehicle_reg_number: vehicleRegNumber, address,
+        },
       },
     })
     if (error) throw error
