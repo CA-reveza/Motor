@@ -15,7 +15,6 @@ import DriverTrip from './pages/driver/DriverTrip.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminBookings from './pages/admin/AdminBookings.jsx'
 import AdminDrivers from './pages/admin/AdminDrivers.jsx'
-import AdminFleet from './pages/admin/AdminFleet.jsx'
 
 export default function App() {
   return (
@@ -88,14 +87,6 @@ export default function App() {
           element={
             <ProtectedRoute allow={['admin']}>
               <AdminDrivers />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/fleet"
-          element={
-            <ProtectedRoute allow={['admin']}>
-              <AdminFleet />
             </ProtectedRoute>
           }
         />

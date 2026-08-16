@@ -12,6 +12,46 @@ alter table profiles add column if not exists vehicle_number text;
 alter table profiles add column if not exists address text;
 alter table profiles add column if not exists aadhar_number text;
 alter table profiles add column if not exists vehicle_reg_number text;
+alter table profiles add column if not exists aadhar_doc_path text;
+alter table profiles add column if not exists vehicle_reg_doc_path text;
+alter table profiles add column if not exists kyc_status text not null default 'pending'
+  check (kyc_status in ('pending', 'submitted', 'verified'));
+
+-- ----------------------------------------------------------------------------
+-- Storage bucket for driver KYC document photos (Aadhar card, vehicle RC).
+-- Private bucket: only the owning driver and admins can read/write, via the
+-- policies below. Files are stored under `{driver_id}/aadhar.<ext>` and
+-- `{driver_id}/vehicle_reg.<ext>`.
+-- ----------------------------------------------------------------------------
+insert into storage.buckets (id, name, public)
+values ('driver-documents', 'driver-documents', false)
+on conflict (id) do nothing;
+
+drop policy if exists "driver_documents_insert_own" on storage.objects;
+create policy "driver_documents_insert_own" on storage.objects
+  for insert with check (
+    bucket_id = 'driver-documents' and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "driver_documents_select_own_or_admin" on storage.objects;
+create policy "driver_documents_select_own_or_admin" on storage.objects
+  for select using (
+    bucket_id = 'driver-documents' and (
+      (storage.foldername(name))[1] = auth.uid()::text or is_admin()
+    )
+  );
+
+drop policy if exists "driver_documents_update_own" on storage.objects;
+create policy "driver_documents_update_own" on storage.objects
+  for update using (
+    bucket_id = 'driver-documents' and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "driver_documents_delete_own" on storage.objects;
+create policy "driver_documents_delete_own" on storage.objects
+  for delete using (
+    bucket_id = 'driver-documents' and (storage.foldername(name))[1] = auth.uid()::text
+  );
 
 -- Capture the extra driver-onboarding fields at sign-up too (optional —
 -- admin can still fill/edit these later from /admin/drivers either way).

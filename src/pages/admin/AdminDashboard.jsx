@@ -52,9 +52,6 @@ export default function AdminDashboard() {
         <Link to="/admin/drivers" className="btn-ghost">
           All Drivers
         </Link>
-        <Link to="/admin/fleet" className="btn-ghost">
-          Fleet
-        </Link>
       </div>
     </div>
   )

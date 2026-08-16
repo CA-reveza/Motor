@@ -27,12 +27,13 @@ export default function AdminDrivers() {
               <th className="p-3">Status</th>
               <th className="p-3">Vehicle</th>
               <th className="p-3">KYC</th>
+              <th className="p-3">Documents</th>
               <th className="p-3"></th>
             </tr>
           </thead>
           <tbody>
             {!loading && drivers.length === 0 && (
-              <tr><td colSpan={6} className="p-3 text-asphalt-400">No drivers signed up yet.</td></tr>
+              <tr><td colSpan={7} className="p-3 text-asphalt-400">No drivers signed up yet.</td></tr>
             )}
             {drivers.map((d) => (
               <DriverRow key={d.id} driver={d} onSaved={load} />
@@ -42,6 +43,14 @@ export default function AdminDrivers() {
       </div>
     </div>
   )
+}
+
+// Private bucket — a plain public URL won't work, so this mints a
+// short-lived signed URL on click and opens it in a new tab.
+async function viewDocument(path) {
+  if (!path) return
+  const { data, error } = await supabase.storage.from('driver-documents').createSignedUrl(path, 300)
+  if (!error && data?.signedUrl) window.open(data.signedUrl, '_blank', 'noopener')
 }
 
 function DriverRow({ driver, onSaved }) {
@@ -70,7 +79,20 @@ function DriverRow({ driver, onSaved }) {
     onSaved()
   }
 
-  const hasKyc = driver.aadhar_number && driver.vehicle_reg_number
+  async function markVerified() {
+    setBusy(true)
+    await supabase.from('profiles').update({ kyc_status: 'verified' }).eq('id', driver.id)
+    setBusy(false)
+    onSaved()
+  }
+
+  const hasDocs = driver.aadhar_doc_path && driver.vehicle_reg_doc_path
+  const kycLabel = driver.kyc_status === 'verified' ? 'verified' : hasDocs ? 'submitted' : 'pending'
+  const kycClass = driver.kyc_status === 'verified'
+    ? 'border-line text-line'
+    : hasDocs
+      ? 'border-signal text-signal'
+      : 'border-asphalt-600 text-asphalt-400'
 
   if (editing) {
     return (
@@ -123,14 +145,27 @@ function DriverRow({ driver, onSaved }) {
         )}
       </td>
       <td className="p-3">
-        <span className={`status-pill ${hasKyc ? 'border-line text-line' : 'border-asphalt-600 text-asphalt-400'}`}>
-          {hasKyc ? 'submitted' : 'pending'}
-        </span>
+        <div className="flex flex-col gap-1 items-start">
+          <span className={`status-pill ${kycClass}`}>{kycLabel}</span>
+          {driver.aadhar_doc_path && (
+            <button className="text-xs text-line underline" onClick={() => viewDocument(driver.aadhar_doc_path)}>View Aadhar</button>
+          )}
+          {driver.vehicle_reg_doc_path && (
+            <button className="text-xs text-line underline" onClick={() => viewDocument(driver.vehicle_reg_doc_path)}>View RC</button>
+          )}
+        </div>
       </td>
       <td className="p-3">
-        <button className="btn-ghost" onClick={() => setEditing(true)}>
-          {driver.vehicle_type ? 'Edit' : 'Assign vehicle'}
-        </button>
+        <div className="flex flex-col gap-2">
+          <button className="btn-ghost" onClick={() => setEditing(true)}>
+            {driver.vehicle_type ? 'Edit' : 'Assign vehicle'}
+          </button>
+          {hasDocs && driver.kyc_status !== 'verified' && (
+            <button className="btn-primary" disabled={busy} onClick={markVerified}>
+              {busy ? '…' : 'Mark verified'}
+            </button>
+          )}
+        </div>
       </td>
     </tr>
   )
