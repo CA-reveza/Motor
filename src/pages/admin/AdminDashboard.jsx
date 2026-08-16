@@ -52,6 +52,9 @@ export default function AdminDashboard() {
         <Link to="/admin/drivers" className="btn-ghost">
           All Drivers
         </Link>
+        <Link to="/admin/reports" className="btn-ghost">
+          Revenue by Vehicle
+        </Link>
       </div>
     </div>
   )
