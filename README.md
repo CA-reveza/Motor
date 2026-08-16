@@ -1,4 +1,4 @@
-# MOTOR
+# MoveIT
 
 A Porter-style on-demand logistics app: customers book a vehicle (two-wheeler
 through large truck), nearby drivers accept and run the trip, and admins
@@ -63,41 +63,6 @@ The router (`src/App.jsx`) sends each role to its own home:
    completed` from `/driver/trip/:id`. The customer's `/track/:id` page
    updates live via Supabase Realtime subscriptions — no polling.
 4. On completion the customer can leave a 1–5 rating.
-
-## OrderIt integration (bridged bookings)
-
-This copy of MOTOR has been patched to work as the delivery layer for a
-separate app called OrderIt (a hotel↔APMC procurement platform, its own
-Supabase project). OrderIt creates bookings here directly via a service-role
-key when a supplier books a vehicle, tagged `source = 'orderit'` with an
-`external_order_id` pointing back to the OrderIt order. Everything else about
-those bookings — driver accept/progress flow — works exactly like a normal
-MOTOR booking.
-
-**Run these three migrations, in order, in addition to the base `schema.sql`:**
-1. `supabase/motor_driver_vehicle_migration.sql` — adds `vehicle_type`,
-   `vehicle_number`, `address`, `aadhar_number`, `vehicle_reg_number` to
-   `profiles`. Without this, admins have no way to assign a driver a vehicle,
-   so drivers can never accept any job (including bridged ones).
-2. `supabase/motor_document_upload_migration.sql` — private Storage bucket +
-   RLS for drivers to upload Aadhar/vehicle-RC photos, viewable by admins.
-3. `supabase/motor_pgnet_webhook_workaround.sql` — pushes booking status
-   changes back to OrderIt via a `pg_net` trigger. Use this instead of the
-   dashboard's "Database Webhooks" feature if you hit
-   `ERROR: 3F000: schema "supabase_functions" does not exist` there — that's
-   a known Supabase provisioning bug on some projects, and this sidesteps it
-   entirely. Fill in the two placeholders (OrderIt's Edge Function URL and
-   your shared webhook secret) before running.
-
-**What changed from the base scaffold:**
-- `src/pages/admin/AdminDrivers.jsx` — vehicle assignment UI, KYC status,
-  document view/verify links (was previously read-only)
-- `src/pages/auth/Signup.jsx` + `src/context/AuthContext.jsx` — driver
-  sign-up now collects vehicle type/number, Aadhar number, RC number, address
-- `src/components/DriverDocumentUpload.jsx` — new; the actual file-upload
-  widget, shown inline on the driver's job feed
-- `src/pages/driver/DriverHome.jsx` — gates the job feed until a vehicle is
-  assigned; shows the document upload widget when documents are missing
 
 ## Extending this scaffold
 

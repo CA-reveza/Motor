@@ -1,4 +1,4 @@
--- MOTOR schema: profiles, bookings, ratings
+-- MoveIT schema: profiles, bookings, ratings
 -- Run this in the Supabase SQL editor. Safe to run multiple times — table/
 -- function/policy creation is all guarded (create if not exists, drop-then-
 -- create for policies), so re-running after an update to this file just

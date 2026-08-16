@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import BookingCard from '../../components/BookingCard.jsx'
-import DriverDocumentUpload from '../../components/DriverDocumentUpload.jsx'
 import { vehicleById } from '../../lib/pricing.js'
 
 export default function DriverHome() {
@@ -73,22 +72,8 @@ export default function DriverHome() {
         </button>
       </div>
 
-      {!loading && profile && (!profile.aadhar_doc_path || !profile.vehicle_reg_doc_path) && (
-        <div className="mb-8">
-          <p className="text-asphalt-400 text-sm mb-3">
-            Complete your KYC by uploading a photo of your Aadhar card and vehicle RC —
-            this doesn't block you from accepting jobs, but your admin needs it on file.
-          </p>
-          <DriverDocumentUpload userId={user.id} profile={profile} onUploaded={refreshProfile} />
-        </div>
-      )}
-
       {loading ? (
         <p className="dash">Loading…</p>
-      ) : !profile?.vehicle_type ? (
-        <p className="text-asphalt-400 text-sm">
-          You haven't been assigned a vehicle yet. Contact an admin to get set up before you can accept jobs.
-        </p>
       ) : myTrip ? (
         <div className="max-w-md">
           <p className="dash mb-3">Current Trip</p>
