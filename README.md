@@ -1,4 +1,4 @@
-# MOTOR
+# MoveIT
 
 A Porter-style on-demand logistics app: customers book a vehicle (two-wheeler
 through large truck), nearby drivers accept and run the trip, and admins
@@ -66,13 +66,13 @@ The router (`src/App.jsx`) sends each role to its own home:
 
 ## OrderIt integration (bridged bookings)
 
-This copy of MOTOR has been patched to work as the delivery layer for a
+This copy of MoveIT has been patched to work as the delivery layer for a
 separate app called OrderIt (a hotel↔APMC procurement platform, its own
 Supabase project). OrderIt creates bookings here directly via a service-role
 key when a supplier books a vehicle, tagged `source = 'orderit'` with an
 `external_order_id` pointing back to the OrderIt order. Everything else about
 those bookings — driver accept/progress flow — works exactly like a normal
-MOTOR booking.
+MoveIT booking.
 
 **Run these three migrations, in order, in addition to the base `schema.sql`:**
 1. `supabase/motor_driver_vehicle_migration.sql` — adds `vehicle_type`,

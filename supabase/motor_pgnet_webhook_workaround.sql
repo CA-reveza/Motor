@@ -32,7 +32,7 @@ set search_path = public, extensions
 as $$
 begin
   perform net.http_post(
-    url := 'https://YOUR-ORDERIT-PROJECT-REF.functions.supabase.co/motor-status-webhook',
+    url := 'https://wjlmynndwlwnwkkowczr.supabase.co/functions/v1/motor-status-webhook',
     body := jsonb_build_object(
       'type', 'UPDATE',
       'table', 'bookings',
@@ -41,7 +41,7 @@ begin
     ),
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
-      'x-webhook-secret', 'YOUR_MOTOR_WEBHOOK_SECRET'
+      'x-webhook-secret', '9788a36ec5157c1ea6c5c1474a67776ecb9a299f656dcc09c8be8c134c2b2f26'
     )
   );
   return new;
