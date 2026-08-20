@@ -72,7 +72,7 @@ export default function DriverTrip() {
       </div>
 
       <div className="card p-5 mb-5">
-        <p className="text-white">↑ {booking.pickup_address}</p>
+        <p className="text-asphalt-200">↑ {booking.pickup_address}</p>
         <p className="text-asphalt-400 mt-1">↓ {booking.drop_address}</p>
         {booking.notes && <p className="text-asphalt-400 text-sm mt-3 italic">"{booking.notes}"</p>}
         <div className="flex justify-between font-mono text-sm mt-4 text-asphalt-400">
@@ -84,7 +84,7 @@ export default function DriverTrip() {
       {customer && (
         <div className="card p-5 mb-5">
           <p className="dash mb-1">Customer</p>
-          <p className="text-white">{customer.full_name}</p>
+          <p className="text-asphalt-200">{customer.full_name}</p>
           <p className="text-asphalt-400 font-mono text-sm">{customer.phone}</p>
         </div>
       )}

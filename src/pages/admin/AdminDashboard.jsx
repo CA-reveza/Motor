@@ -40,7 +40,7 @@ export default function AdminDashboard() {
         {cards.map((c) => (
           <div key={c.label} className="card p-4">
             <p className="dash mb-2">{c.label}</p>
-            <p className="font-display text-3xl text-white">{c.value ?? '—'}</p>
+            <p className="font-display text-3xl text-asphalt-200">{c.value ?? '—'}</p>
           </div>
         ))}
       </div>

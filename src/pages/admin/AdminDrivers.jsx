@@ -13,6 +13,8 @@ export default function AdminDrivers() {
   const [edits, setEdits] = useState({}) // { [driverId]: { vehicle_type, vehicle_number } }
   const [saving, setSaving] = useState(null)
   const [docUrls, setDocUrls] = useState({}) // { [driverId]: { aadhar, vehicle_reg } }
+  const [docErrors, setDocErrors] = useState({}) // { [driverId]: string }
+  const [loadingDocs, setLoadingDocs] = useState(null)
 
   async function load() {
     const { data } = await supabase.from('profiles').select('*').eq('role', 'driver').order('full_name')
@@ -47,13 +49,22 @@ export default function AdminDrivers() {
 
   async function viewDocs(driver) {
     const paths = { aadhar: driver.aadhar_doc_path, vehicle_reg: driver.vehicle_reg_doc_path }
+    setLoadingDocs(driver.id)
+    setDocErrors((prev) => ({ ...prev, [driver.id]: '' }))
     const urls = {}
+    const errors = []
     for (const [key, path] of Object.entries(paths)) {
       if (!path) continue
-      const { data } = await supabase.storage.from('driver-documents').createSignedUrl(path, 600)
-      if (data?.signedUrl) urls[key] = data.signedUrl
+      const { data, error } = await supabase.storage.from('driver-documents').createSignedUrl(path, 600)
+      if (error) {
+        errors.push(`${key === 'aadhar' ? 'Aadhar' : 'RC'}: ${error.message}`)
+      } else if (data?.signedUrl) {
+        urls[key] = data.signedUrl
+      }
     }
     setDocUrls((prev) => ({ ...prev, [driver.id]: urls }))
+    if (errors.length) setDocErrors((prev) => ({ ...prev, [driver.id]: errors.join(' · ') }))
+    setLoadingDocs(null)
   }
 
   return (
@@ -71,7 +82,7 @@ export default function AdminDrivers() {
             <div key={d.id} className="card p-5">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="text-white font-display text-lg uppercase tracking-wide">{d.full_name}</p>
+                  <p className="text-asphalt-200 font-display text-lg uppercase tracking-wide">{d.full_name}</p>
                   <p className="text-asphalt-400 font-mono text-sm">{d.phone}</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -113,9 +124,9 @@ export default function AdminDrivers() {
               </div>
 
               <div className="flex items-center gap-4 mt-4 flex-wrap">
-                {(d.aadhar_doc_path || d.vehicle_reg_doc_path) && !urls && (
-                  <button className="btn-ghost py-1 px-3 text-xs" onClick={() => viewDocs(d)}>
-                    Load documents
+                {(d.aadhar_doc_path || d.vehicle_reg_doc_path) && !urls?.aadhar && !urls?.vehicle_reg && (
+                  <button className="btn-ghost py-1 px-3 text-xs" disabled={loadingDocs === d.id} onClick={() => viewDocs(d)}>
+                    {loadingDocs === d.id ? 'Loading…' : docErrors[d.id] ? 'Retry loading documents' : 'Load documents'}
                   </button>
                 )}
                 {urls?.aadhar && (
@@ -127,6 +138,9 @@ export default function AdminDrivers() {
                   <a href={urls.vehicle_reg} target="_blank" rel="noreferrer" className="text-line text-xs underline">
                     View RC
                   </a>
+                )}
+                {docErrors[d.id] && (
+                  <span className="text-red-500 text-xs font-mono">{docErrors[d.id]}</span>
                 )}
                 {d.kyc_status === 'submitted' && (
                   <div className="flex gap-2 ml-auto">

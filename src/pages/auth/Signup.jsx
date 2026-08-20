@@ -35,11 +35,17 @@ export default function Signup() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-5 py-10">
-      <div className="w-full max-w-sm">
-        <p className="dash mb-2">Get moving</p>
-        <h1 className="h1 mb-8">Sign Up</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-3">
+      <div className="auth-card">
+        <img src="/logo.png" alt="MoveIT" className="h-12 w-auto mb-2" />
+        <p className="auth-tagline">We Deliver your Orders...</p>
+
+        <div className="auth-tabs">
+          <Link to="/login" className="auth-tab">Sign in</Link>
+          <Link to="/signup" className="auth-tab active">Sign up</Link>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-3 mb-4">
             <button
               type="button"
               onClick={() => update('role', 'customer')}
@@ -55,48 +61,42 @@ export default function Signup() {
               I drive
             </button>
           </div>
+          <label className="field-label">Full name</label>
           <input
-            className="input"
-            placeholder="Full name"
+            className="input-plain"
             value={form.fullName}
             onChange={(e) => update('fullName', e.target.value)}
             required
           />
+          <label className="field-label">Phone</label>
           <input
-            className="input"
-            placeholder="Phone"
+            className="input-plain"
             value={form.phone}
             onChange={(e) => update('phone', e.target.value)}
             required
           />
+          <label className="field-label">Email</label>
           <input
-            className="input"
+            className="input-plain"
             type="email"
-            placeholder="Email"
             value={form.email}
             onChange={(e) => update('email', e.target.value)}
             required
           />
+          <label className="field-label">Password</label>
           <input
-            className="input"
+            className="input-plain"
             type="password"
-            placeholder="Password (min 6 chars)"
             value={form.password}
             onChange={(e) => update('password', e.target.value)}
             minLength={6}
             required
           />
-          {error && <p className="text-red-500 text-sm font-mono">{error}</p>}
-          <button className="btn-primary" disabled={busy}>
-            {busy ? 'Creating account…' : 'Create Account'}
+          {error && <p className="text-red-500 text-sm font-mono mb-4">{error}</p>}
+          <button className="btn-auth" disabled={busy}>
+            {busy ? 'Creating account…' : 'Sign up'}
           </button>
         </form>
-        <p className="text-asphalt-400 text-sm mt-6">
-          Have an account?{' '}
-          <Link to="/login" className="text-line">
-            Log in
-          </Link>
-        </p>
       </div>
     </div>
   )

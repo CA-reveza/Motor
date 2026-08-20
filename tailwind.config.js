@@ -5,26 +5,26 @@ export default {
     extend: {
       colors: {
         asphalt: {
-          950: '#15171a',
-          900: '#1c1f23',
-          800: '#26292e',
-          700: '#34383e',
-          600: '#484d55',
-          400: '#8a8f97',
-          200: '#c9ccd1',
+          950: '#ffffff', // page background (was darkest bg, now white)
+          900: '#ffffff', // card background
+          800: '#eef3f0', // input bg / subtle fill
+          700: '#dde6e1', // borders
+          600: '#c7d6ce', // borders (inputs, ghost buttons)
+          400: '#5b6b64', // muted / secondary text
+          200: '#163126', // primary body text (dark green-black)
         },
         signal: {
-          DEFAULT: '#ff7a1a', // beacon orange — used sparingly
-          dim: '#c4590e',
+          DEFAULT: '#1c6e4a', // primary green (was beacon orange)
+          dim: '#145238', // primary green hover
         },
         line: {
-          DEFAULT: '#f4c531', // road-marking yellow, secondary accent
+          DEFAULT: '#2f9e63', // secondary green accent (was road-marking yellow)
         },
       },
       fontFamily: {
-        display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
-        body: ['"Inter"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        body: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
       letterSpacing: {
         tightest2: '-0.03em',

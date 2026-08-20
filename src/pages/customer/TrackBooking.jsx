@@ -69,7 +69,7 @@ export default function TrackBooking() {
       )}
 
       <div className="card p-5 mb-5">
-        <p className="text-white">↑ {booking.pickup_address}</p>
+        <p className="text-asphalt-200">↑ {booking.pickup_address}</p>
         <p className="text-asphalt-400 mt-1">↓ {booking.drop_address}</p>
         <div className="flex justify-between font-mono text-sm mt-4 text-asphalt-400">
           <span>{vehicle?.label} · {booking.distance_km}km</span>
@@ -80,7 +80,7 @@ export default function TrackBooking() {
       {driver && (
         <div className="card p-5 mb-5">
           <p className="dash mb-1">Driver</p>
-          <p className="text-white">{driver.full_name}</p>
+          <p className="text-asphalt-200">{driver.full_name}</p>
           <p className="text-asphalt-400 font-mono text-sm">{driver.phone}</p>
         </div>
       )}

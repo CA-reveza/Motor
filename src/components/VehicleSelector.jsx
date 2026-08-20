@@ -16,7 +16,7 @@ export default function VehicleSelector({ km, value, onChange }) {
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="font-display font-bold uppercase tracking-wide text-white">{v.label}</span>
+              <span className="font-display font-bold uppercase tracking-wide text-asphalt-200">{v.label}</span>
               {fare ? <span className="font-mono text-line text-sm">₹{fare}</span> : null}
             </div>
             <p className="text-asphalt-400 text-sm mt-1">{v.desc}</p>

@@ -104,7 +104,7 @@ export default function AdminReports() {
               ))}
             </tbody>
             <tfoot>
-              <tr className="text-white font-display uppercase tracking-wide">
+              <tr className="text-asphalt-200 font-display uppercase tracking-wide">
                 <td className="p-3">Total</td>
                 <td className="p-3 font-mono">{totalTrips}</td>
                 <td className="p-3 font-mono text-line">₹{totalRevenue.toLocaleString('en-IN')}</td>

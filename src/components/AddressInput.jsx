@@ -67,7 +67,7 @@ export default function AddressInput({ placeholder, value, onChange, onSelect, n
                 onClick={() => pick(s)}
                 className="block w-full text-left px-4 py-3 hover:bg-asphalt-800 border-b border-asphalt-800 last:border-b-0"
               >
-                <p className="text-white text-sm truncate">{s.address}</p>
+                <p className="text-asphalt-200 text-sm truncate">{s.address}</p>
               </button>
             ))}
         </div>

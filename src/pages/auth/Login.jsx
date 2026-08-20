@@ -26,37 +26,37 @@ export default function Login() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-5">
-      <div className="w-full max-w-sm">
-        <p className="dash mb-2">Welcome back</p>
-        <h1 className="h1 mb-8">Log In</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="auth-card">
+        <img src="/logo.png" alt="MoveIT" className="h-12 w-auto mb-2" />
+        <p className="auth-tagline">We Deliver your Orders...</p>
+
+        <div className="auth-tabs">
+          <Link to="/login" className="auth-tab active">Sign in</Link>
+          <Link to="/signup" className="auth-tab">Sign up</Link>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <label className="field-label">Email</label>
           <input
-            className="input"
+            className="input-plain"
             type="email"
-            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <label className="field-label">Password</label>
           <input
-            className="input"
+            className="input-plain"
             type="password"
-            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <p className="text-red-500 text-sm font-mono">{error}</p>}
-          <button className="btn-primary" disabled={busy}>
-            {busy ? 'Signing in…' : 'Log In'}
+          {error && <p className="text-red-500 text-sm font-mono mb-4">{error}</p>}
+          <button className="btn-auth" disabled={busy}>
+            {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
-        <p className="text-asphalt-400 text-sm mt-6">
-          No account?{' '}
-          <Link to="/signup" className="text-line">
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   )

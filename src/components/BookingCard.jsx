@@ -10,7 +10,7 @@ export default function BookingCard({ booking, to, action }) {
         <span className="dash">#{booking.id.slice(0, 8)}</span>
         <StatusBadge status={booking.status} />
       </div>
-      <div className="text-white text-sm">
+      <div className="text-asphalt-200 text-sm">
         <p className="truncate">↑ {booking.pickup_address}</p>
         <p className="truncate text-asphalt-400">↓ {booking.drop_address}</p>
       </div>
