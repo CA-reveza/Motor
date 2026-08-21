@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import BookingCard from '../../components/BookingCard.jsx'
+import DriverTabs from '../../components/DriverTabs.jsx'
 import { vehicleById } from '../../lib/pricing.js'
 
 export default function DriverHome() {
@@ -71,6 +72,8 @@ export default function DriverHome() {
           {profile?.is_online ? '● Online' : '○ Offline'}
         </button>
       </div>
+
+      <DriverTabs />
 
       {loading ? (
         <p className="dash">Loading…</p>

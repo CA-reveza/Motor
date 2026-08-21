@@ -11,6 +11,9 @@ import TrackBooking from './pages/customer/TrackBooking.jsx'
 
 import DriverHome from './pages/driver/DriverHome.jsx'
 import DriverTrip from './pages/driver/DriverTrip.jsx'
+import DriverDetails from './pages/driver/DriverDetails.jsx'
+import DriverHistory from './pages/driver/DriverHistory.jsx'
+import DriverPayout from './pages/driver/DriverPayout.jsx'
 
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminBookings from './pages/admin/AdminBookings.jsx'
@@ -63,6 +66,30 @@ export default function App() {
           element={
             <ProtectedRoute allow={['driver']}>
               <DriverTrip />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/driver/details"
+          element={
+            <ProtectedRoute allow={['driver']}>
+              <DriverDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/driver/history"
+          element={
+            <ProtectedRoute allow={['driver']}>
+              <DriverHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/driver/payout"
+          element={
+            <ProtectedRoute allow={['driver']}>
+              <DriverPayout />
             </ProtectedRoute>
           }
         />
